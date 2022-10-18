@@ -6,6 +6,8 @@ let mouse = new Point();
 let ctx; // canvas2d コンテキスト格納用
 let fire = false;
 let counter = 0;
+let score = 0;
+let message = '';
 
 let CHARA_COLOR = 'rgba(0, 0, 255, 0.75)';
 let CHARA_SHOT_COLOR = 'rgba(0, 255, 0, 0.75)';
@@ -16,6 +18,10 @@ let ENEMY_MAX_COUNT = 10;
 let ENEMY_SHOT_COLOR = 'rgba(255, 0, 255, 0.75)';
 let ENEMY_SHOT_MAX_COUNT = 100;
 
+let BOSS_COLOR = 'rgba(128, 128, 128, 0.75)';
+let BOSS_BIT_COLOR = 'rgba(64, 64, 64, 0.75)';
+let BOSS_BIT_COUNT = 5;
+
 // - main ---------------------
 window.onload = function () {
 
@@ -24,8 +30,11 @@ window.onload = function () {
 
     // スクリーンの初期化
     screenCanvas = document.getElementById('screen');
-    screenCanvas.width = 256;
-    screenCanvas.height = 256;
+    screenCanvas.width = 375;
+    screenCanvas.height = 600;
+
+    mouse.x = screenCanvas.width / 2;
+    mouse.y = screenCanvas.height - 20;
 
     // 2dコンテキスト
     ctx = screenCanvas.getContext('2d');
@@ -56,17 +65,25 @@ window.onload = function () {
     for (i = 0; i < ENEMY_SHOT_MAX_COUNT; i++) {
         enemyShot[i] = new EnemyShot();
     }
+    // ボス初期化
+    let boss = new Boss();
+
+    // ボスのビットを初期化
+    let bit = new Array(BOSS_BIT_COUNT);
+    for (i = 0; i < BOSS_BIT_COUNT; i++) {
+        bit[i] = new Bit();
+    }
 
 
     // レンダリング処理を呼び出す
     (function () {
+        // カウンタをインクリメント
         counter++
-        //HTMLを更新
-        info.innerHTML = mouse.x + ' : ' + mouse.y;
 
         // screenクリア
         ctx.clearRect(0, 0, screenCanvas.width, screenCanvas.height);
 
+        // 自機-------------------------------------------------
         // パスの設定を開始
         ctx.beginPath();
 
@@ -84,7 +101,7 @@ window.onload = function () {
         ctx.fill();
 
         // フラグにより再帰呼び出し
-        if (run) { setTimeout(arguments.callee, fps); }
+        // if (run) { setTimeout(arguments.callee, fps); }
 
         // fireフラグの値により分岐
         if (fire) {
@@ -132,61 +149,282 @@ window.onload = function () {
         // 自機ショットを描く
         ctx.fill();
 
-        // エネミーの出現管理----------
-        // 100 フレームに一度出現させる
-        if (counter % 100 === 0) {
+        // エネミーの出現管理 -------------------------------------------------
+        // 1000 フレーム目までは 100 フレームに一度出現させる
+        if (counter % 100 === 0 && counter < 1000) {
             // すべてのエネミーを調査する
             for (i = 0; i < ENEMY_MAX_COUNT; i++) {
                 // エネミーの生存フラグをチェック
                 if (!enemy[i].alive) {
-
-                    enemy[i].move();
-
                     // タイプを決定するパラメータを算出
                     j = (counter % 200) / 100;
 
                     // タイプに応じて初期位置を決める
-                    let enemySize = 15;
+                    var enemySize = 15;
                     p.x = -enemySize + (screenCanvas.width + enemySize * 2) * j
                     p.y = screenCanvas.height / 2;
-                    // console.log(p)
 
                     // エネミーを新規にセット
                     enemy[i].set(p, enemySize, j);
 
-                    // ctx.arc(
-                    //     enemy[i].position.x,
-                    //     enemy[i].position.y,
-                    //     enemy[i].size,
-                    //     0, Math.PI * 2, false
-                    // );
-
-                    // １体出現させたのでループを抜ける
+                    // 1体出現させたのでループを抜ける
                     break;
-                };
+                }
+            }
+        } else if (counter === 1000) {
+            // 1000 フレーム目にボスを出現させる
+            p.x = screenCanvas.width / 2;
+            p.y = -80;
+            boss.set(p, 50, 30);
+
+            // 同時にビットも出現させる
+            for (i = 0; i < BOSS_BIT_COUNT; i++) {
+                j = 360 / BOSS_BIT_COUNT;
+                bit[i].set(boss, 15, 5, i * j);
             }
         }
 
-        ctx.beginPath();
+        // カウンターの値によってシーン分岐
+        switch (true) {
+            // カウンターの値が70より小さい
+            case counter < 70:
+                message = 'READY...';
+                break;
 
-        for (i = 0; i < ENEMY_MAX_COUNT; i++) {
-            if (enemy[i].alive) {
-                enemy[i].move();
+            // カウンターの値が100より小さい
+            case counter < 100:
+                message = 'GO!!';
+                break;
 
-                ctx.arc(
-                    enemy[i].position.x,
-                    enemy[i].position.y,
-                    0, Math.PI * 2, false
-                );
-                ctx.closePath();
-            }
+            // カウンターの値が100以上
+            default:
+                message = '';
+
+
+                ctx.beginPath();
+
+                for (i = 0; i < ENEMY_MAX_COUNT; i++) {
+                    if (enemy[i].alive) {
+                        enemy[i].move();
+
+                        ctx.arc(
+                            enemy[i].position.x,
+                            enemy[i].position.y,
+                            enemy[i].size,
+                            0, Math.PI * 2, false
+                        );
+
+                        // ショットを打つかどうかパラメータの値からチェック
+                        if (enemy[i].param % 30 === 0) {
+                            // エネミーショットを調査する
+                            for (j = 0; j < ENEMY_SHOT_MAX_COUNT; j++) {
+                                if (!enemyShot[j].alive) {
+                                    // エネミーショットを新規にセットする
+                                    p = enemy[i].position.distance(chara.position);
+                                    p.normalize();
+                                    enemyShot[j].set(enemy[i].position, p, 5, 5);
+
+                                    // ループを抜ける
+                                    break;
+                                }
+                            }
+                        }
+                        ctx.closePath();
+                    }
+                }
+
+                // 敵の色を指定する
+                ctx.fillStyle = ENEMY_COLOR;
+
+                // 敵を描く
+                ctx.fill();
+
+                // 敵のショットを描く
+                ctx.beginPath();
+
+                for (i = 0; i < ENEMY_SHOT_MAX_COUNT; i++) {
+                    if (enemyShot[i].alive) {
+                        enemyShot[i].move();
+
+                        ctx.arc(
+                            enemyShot[i].position.x,
+                            enemyShot[i].position.y,
+                            enemyShot[i].size,
+                            0, Math.PI * 2, false
+                        );
+                        ctx.closePath();
+                    }
+                }
+
+                ctx.fillStyle = ENEMY_SHOT_COLOR;
+
+                ctx.fill();
+
+                // ボス -------------------------------------------------------
+                // パスの設定を開始
+                ctx.beginPath();
+
+                // ボスの出現フラグをチェック
+                if (boss.alive) {
+                    // ボスを動かす
+                    boss.move();
+
+                    // ボスを描くパスを設定
+                    ctx.arc(
+                        boss.position.x,
+                        boss.position.y,
+                        boss.size,
+                        0, Math.PI * 2, false
+                    );
+
+                    // パスをいったん閉じる
+                    ctx.closePath();
+                }
+
+                // ボスの色を設定する
+                ctx.fillStyle = BOSS_COLOR;
+
+                // ボスを描く
+                ctx.fill();
+
+                // ビット -------------------------------------------
+                // パスの設定を開始
+                ctx.beginPath();
+
+                // すべてのビットを調査する
+                for (i = 0; i < BOSS_BIT_COUNT; i++) {
+                    // ビットの出現フラグをチェック
+                    if (bit[i].alive) {
+                        // ビットを動かす
+                        bit[i].move();
+
+                        // ビットを描くパスを設定
+                        ctx.arc(
+                            bit[i].position.x,
+                            bit[i].position.y,
+                            bit[i].size,
+                            0, Math.PI * 2, false
+                        );
+
+                        // ショットを打つかどうかパラメータの値からチェック
+                        if (bit[i].param % 25 === 0) {
+                            // エネミーショットを調査する
+                            for (j = 0; j < ENEMY_SHOT_MAX_COUNT; j++) {
+                                if (!enemyShot[j].alive) {
+                                    // エネミーショットを新規にセットする
+                                    p = bit[i].position.distance(chara.position);
+                                    p.normalize();
+                                    enemyShot[j].set(bit[i].position, p, 4, 1.5);
+
+                                    // 1個出現させたのでループを抜ける
+                                    break;
+                                }
+                            }
+                        }
+
+                        // パスをいったん閉じる
+                        ctx.closePath();
+                    }
+                }
+
+                // ビットの色を設定する
+                ctx.fillStyle = BOSS_BIT_COLOR;
+
+                // ビットを描く
+                ctx.fill();
+
+
+                // 衝突判定--------------------------------------
+                for (i = 0; i < CHARA_SHOT_MAX_COUNT; i++) {
+                    // 自機ショットの生存フラグをチェック
+                    if (charaShot[i].alive) {
+                        // 自機ショットとエネミーの衝突判定
+                        for (j = 0; j < ENEMY_MAX_COUNT; j++) {
+                            // エネミーの生存フラグをチェック
+                            if (enemy[j].alive) {
+                                // エネミーと自機ショットとの距離を計測
+                                p = enemy[j].position.distance(charaShot[i].position);
+                                if (p.lenght() < enemy[j].size) {
+                                    // 衝突していたら生存フラグを降ろす
+                                    enemy[j].alive = false;
+                                    charaShot[i].alive = false;
+
+                                    // スコアを更新するためにインクリメント
+                                    score++;
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        // 自機ショットとボスビットとの衝突判定
+                        for (j = 0; j < BOSS_BIT_COUNT; j++) {
+                            // ビットの生存フラグをチェック
+                            if (bit[j].alive) {
+                                // ビットと自機ショットとの距離を計測
+                                p = bit[j].position.distance(charaShot[i].position);
+                                if (p.length() < bit[j].size) {
+                                    // 衝突していたら耐久値をデクリメントする
+                                    bit[j].life--;
+
+                                    // 自機ショットの生存フラグを降ろす
+                                    charaShot[i].alive = false;
+
+                                    // 耐久値がマイナスになったら生存フラグを降ろす
+                                    if (bit[j].life < 0) {
+                                        bit[j].alive = false;
+                                        score += 3;
+                                    }
+
+                                    // 衝突があったのでループを抜ける
+                                    break;
+                                }
+                            }
+                        }
+
+                        // ボスの生存フラグをチェック
+                        if (boss.alive) {
+                            // 自機ショットとボスとの衝突判定
+                            p = boss.position.distance(charaShot[i].position);
+                            if (p.length() < boss.size) {
+                                // 衝突していたら耐久値をデクリメントする
+                                boss.life--;
+
+                                // 自機ショットの生存フラグを降ろす
+                                charaShot[i].alive = false;
+
+                                // 耐久値がマイナスになったらクリア
+                                if (boss.life < 0) {
+                                    score += 10;
+                                    run = false;
+                                    message = 'CLEAR !!';
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //  自機とエネミーショットとの衝突判定
+                for (i = 0; i < ENEMY_SHOT_MAX_COUNT; i++) {
+                    // エネミーショットの生存フラグをチェック
+                    if (enemyShot[i].alive) {
+                        // 自機とエネミーショットとの距離を計測
+                        p = chara.position.distance(enemyShot[i].position);
+                        if (p.lenght() < chara.size) {
+                            // 衝突していたら生存フラグを降ろす
+                            chara.alive = false;
+
+                            // 衝突があったのでパラメータを変更してループを抜ける
+                            run = false;
+                            message = 'GAME OVER !!';
+                            break;
+                        }
+                    }
+                }
+                break;
         }
 
-        // 敵の色を指定する
-        ctx.fillStyle = ENEMY_COLOR;
-
-        // 敵を描く
-        ctx.fill();
+        info.innerHTML = 'SCORE: ' + (score * 100) + ' ' + message;
 
         if (run) { setTimeout(arguments.callee, fps); }
     })();
