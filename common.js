@@ -10,12 +10,12 @@ Point.prototype.distance = function(p){
     return q;
 };
 
-Point.prototype.lenght = function(){
+Point.prototype.length = function(){
     return Math.sqrt(this.x * this.x + this.y * this.y);
 };
 
 Point.prototype.normalize = function(){
-    let i = this.lenght();
+    let i = this.length();
     if(i > 0){
         let j = 1 / i;
         this.x *= j;

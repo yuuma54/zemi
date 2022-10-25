@@ -9,6 +9,8 @@ let counter = 0;
 let score = 0;
 let message = '';
 
+const STAR_MAX = 300;
+
 let CHARA_COLOR = 'rgba(0, 0, 255, 0.75)';
 let CHARA_SHOT_COLOR = 'rgba(0, 255, 0, 0.75)';
 let CHARA_SHOT_MAX_COUNT = 10
@@ -22,11 +24,25 @@ let BOSS_COLOR = 'rgba(128, 128, 128, 0.75)';
 let BOSS_BIT_COLOR = 'rgba(64, 64, 64, 0.75)';
 let BOSS_BIT_COUNT = 5;
 
+function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+class Star {
+    constructor() {
+        this.x = rand(0, 375);
+        this.y = rand(0, 600);
+        this.vx = 0;
+        this.vy = rand(30, 200);
+        this.sz;
+    }
+}
+
 // - main ---------------------
 window.onload = function () {
 
-    var i, j;
-    var p = new Point();
+    let i, j;
+    let p = new Point();
 
     // スクリーンの初期化
     screenCanvas = document.getElementById('screen');
@@ -344,7 +360,7 @@ window.onload = function () {
                             if (enemy[j].alive) {
                                 // エネミーと自機ショットとの距離を計測
                                 p = enemy[j].position.distance(charaShot[i].position);
-                                if (p.lenght() < enemy[j].size) {
+                                if (p.length() < enemy[j].size) {
                                     // 衝突していたら生存フラグを降ろす
                                     enemy[j].alive = false;
                                     charaShot[i].alive = false;
@@ -410,7 +426,7 @@ window.onload = function () {
                     if (enemyShot[i].alive) {
                         // 自機とエネミーショットとの距離を計測
                         p = chara.position.distance(enemyShot[i].position);
-                        if (p.lenght() < chara.size) {
+                        if (p.length() < chara.size) {
                             // 衝突していたら生存フラグを降ろす
                             chara.alive = false;
 
@@ -450,4 +466,7 @@ function keyDown(event) {
 
     //Escキーが押されたらフラグを降ろす
     if (ck === 27) { run = false; }
+}
+function OnButton() {
+    location.reload();
 }
