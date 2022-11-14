@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta charset="utf-8">
-        <style>
-            .wrapper {
-                display: inline-block;
-                position: relative;
-            }
 
-            .gamepad {
-                border: 1px solid red;
-                position: absolute;
-                width: 100px;
-                height: 100px;
-                bottom: 4%;
-                right: 4%;
-                z-index: 1;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="wrapper">
-            <canvas id="can"></canvas>
-            <div id="gamepad" class="gamepad"></div>
-        </div>
-        <script src="nipplejs.min.js"></script>
-        <script src="main.js"></script>
-    </body>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="ress.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <canvas id="can"></canvas>
+        <div id="gamepad" class="gamepad"></div>
+        <button class="btn" type="button" click="OnButton()">
+            shot
+        </button>
+        <!-- <form>
+                <input type="button"value="shot"class="btn">
+            </form> -->
+    </div>
+    <script src="nipplejs.min.js"></script>
+    <script src="misc.js"></script>
+    <script src="data.js"></script>
+    <script src="jiki.js"></script>
+    <script src="teki.js"></script>
+    <script src="main.js"></script>
+</body>
+
 </html>
