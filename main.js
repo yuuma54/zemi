@@ -194,16 +194,4 @@ function OffButton(){
 
 // ボタンをタップされたとき
 btn.addEventListener('touchstart', OnButton, false);
-// ----------------------------------------------
-
-function OnButton() {
-    console.log('ボタンが押された')
-    jiki.fire = true
-};
-// ----------------------------------------------
-
 btn.addEventListener('touchend', OffButton, false);
-
-function OffButton(){
-  jiki.fire = false
-};
