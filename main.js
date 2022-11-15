@@ -177,7 +177,7 @@ window.onload = function () {
 };
 
 // ボタンを押されたとき
-document.addEventListener('touchstart', OnButton, false);
+btn.addEventListener('touchstart', OnButton, false);
 // ----------------------------------------------
 
 function OnButton() {
@@ -186,7 +186,7 @@ function OnButton() {
 };
 // ----------------------------------------------
 
-document.addEventListener('touchend', OffButton, false);
+btn.addEventListener('touchend', OffButton, false);
 
 function OffButton() {
   jiki.fire = false
