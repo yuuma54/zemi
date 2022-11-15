@@ -175,3 +175,13 @@ function gameLoop() {
 window.onload = function () {
   gameInit();
 };
+
+// ボタンを押されたとき
+document.addEventListener('mousedown', OnButton, false);
+// ----------------------------------------------
+
+function OnButton() {
+    console.log('ボタンが押された')
+    jiki.fire = true
+};
+// ----------------------------------------------

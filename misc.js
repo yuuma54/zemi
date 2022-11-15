@@ -10,15 +10,6 @@ document.addEventListener('keyup', function (e) {
     key[e.code] = false;
 });
 
-// ボタンを押されたとき
-document.addEventListener('mousedown', OnButton(), false);
-// ----------------------------------------------
-
-function OnButton() {
-    fire = true
-};
-// ----------------------------------------------
-
 //キャラクターのベースクラス
 class CharaBase {
     constructor(snum, x, y, vx, vy) {
