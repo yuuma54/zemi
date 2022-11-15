@@ -181,13 +181,13 @@ document.addEventListener('touchstart', OnButton, false);
 // ----------------------------------------------
 
 function OnButton() {
-    console.log('ボタンが押された')
-    jiki.fire = true
+  console.log('ボタンが押された')
+  jiki.fire = true
 };
 // ----------------------------------------------
 
-document.addEventListener('touchend',OffButton,false);
+document.addEventListener('touchend', OffButton, false);
 
-function OffButton(){
+function OffButton() {
   jiki.fire = false
 };

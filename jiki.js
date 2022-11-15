@@ -29,19 +29,19 @@ class Jiki {
 
     // 自機の移動
     update() {
-        if (key['Space'] && this.reload == 0) {
-            tama.push(new Tama(this.x + (4 << 8), this.y - (10 << 8), 0, -2000));
-            tama.push(new Tama(this.x - (4 << 8), this.y - (10 << 8), 0, -2000));
-            tama.push(new Tama(this.x + (8 << 8), this.y - (10 << 8), 80, -2000));
-            tama.push(new Tama(this.x - (8 << 8), this.y - (10 << 8), -80, -2000));
+        // if (key['Space'] && this.reload == 0) {
+        //     tama.push(new Tama(this.x + (4 << 8), this.y - (10 << 8), 0, -2000));
+        //     tama.push(new Tama(this.x - (4 << 8), this.y - (10 << 8), 0, -2000));
+        //     tama.push(new Tama(this.x + (8 << 8), this.y - (10 << 8), 80, -2000));
+        //     tama.push(new Tama(this.x - (8 << 8), this.y - (10 << 8), -80, -2000));
 
-            this.reload = 4;
-            if (++this.relo2 == 4) {
-                this.reload = 20;
-                this.relo2 = 0;
-            }
-        }
-        if (!!key['Spece']) this.reload = this.relo2 = 0;
+        //     this.reload = 4;
+        //     if (++this.relo2 == 4) {
+        //         this.reload = 20;
+        //         this.relo2 = 0;
+        //     }
+        // }
+        // if (!!key['Spece']) this.reload = this.relo2 = 0;
 
 
         if (this.fire === true && this.reload == 0) {
