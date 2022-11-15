@@ -185,3 +185,9 @@ function OnButton() {
     jiki.fire = true
 };
 // ----------------------------------------------
+
+document.addEventListener('touchend',OffButton,false);
+
+function OffButton(){
+  jiki.fire = false
+};
