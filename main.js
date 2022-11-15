@@ -192,18 +192,18 @@ function OffButton(){
   jiki.fire = false
 };
 
-// // ボタンをタップされたとき
-// btn.addEventListener('touchstart', OnButton, false);
-// // ----------------------------------------------
+// ボタンをタップされたとき
+btn.addEventListener('touchstart', OnButton, false);
+// ----------------------------------------------
 
-// function OnButton() {
-//     console.log('ボタンが押された')
-//     jiki.fire = true
-// };
-// // ----------------------------------------------
+function OnButton() {
+    console.log('ボタンが押された')
+    jiki.fire = true
+};
+// ----------------------------------------------
 
-// btn.addEventListener('touchend', OffButton, false);
+btn.addEventListener('touchend', OffButton, false);
 
-// function OffButton(){
-//   jiki.fire = false
-// };
+function OffButton(){
+  jiki.fire = false
+};
