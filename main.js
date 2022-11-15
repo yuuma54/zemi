@@ -177,7 +177,7 @@ window.onload = function () {
 };
 
 // ボタンを押されたとき
-document.addEventListener('mousedown', OnButton, false);
+btn.addEventListener('mousedown', OnButton, false);
 // ----------------------------------------------
 
 function OnButton() {
@@ -185,3 +185,25 @@ function OnButton() {
     jiki.fire = true
 };
 // ----------------------------------------------
+
+btn.addEventListener('mouseup', OffButton, false);
+
+function OffButton(){
+  jiki.fire = false
+};
+
+// ボタンをタップされたとき
+btn.addEventListener('touchstart', OnButton, false);
+// ----------------------------------------------
+
+function OnButton() {
+    console.log('ボタンが押された')
+    jiki.fire = true
+};
+// ----------------------------------------------
+
+btn.addEventListener('touchend', OffButton, false);
+
+function OffButton(){
+  jiki.fire = false
+};
