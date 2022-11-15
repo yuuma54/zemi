@@ -25,6 +25,11 @@ class Jiki {
         this.reload = 0;
         this.relo2 = 0;
         this.fire = false;
+
+        this.up = false;
+        this.right = false;
+        this.down = false;
+        this.left = false;
     }
 
     // 自機の移動
@@ -60,10 +65,10 @@ class Jiki {
 
 
         if (this.reload > 0) this.reload--;
-        if (key['ArrowLeft'] && this.x > this.speed) {
+        if (this.left && this.x > this.speed || key['ArrowLeft'] && this.x > this.speed) {
             this.x -= this.speed;
             if (this.anime > -8) this.anime--;
-        } else if (key['ArrowRight'] && this.x <= (FIELD_W << 8) - this.speed) {
+        } else if (this.right && this.x <= (FIELD_W << 8) - this.speed || key['ArrowRight'] && this.x <= (FIELD_W << 8) - this.speed) {
             this.x += this.speed;
             if (this.anime < 8) this.anime++;
         } else {
@@ -71,9 +76,9 @@ class Jiki {
             if (this.anime < 0) this.anime++;
         }
 
-        if (key['ArrowUp'] && this.y > this.speed) this.y -= this.speed;
+        if (this.up && this.y > this.speed || key['ArrowUp'] && this.y > this.speed) this.y -= this.speed;
 
-        if (key['ArrowDown'] && this.y <= (FIELD_H << 8) - this.speed)
+        if (this.down && this.y <= (FIELD_H << 8) - this.speed || key['ArrowDown'] && this.y <= (FIELD_H << 8) - this.speed)
             this.y += this.speed;
     }
 

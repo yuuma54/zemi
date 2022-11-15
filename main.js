@@ -197,3 +197,29 @@ function OffButton(){
 // ボタンをタップされたとき
 btn.addEventListener('touchstart', OnButton, false);
 btn.addEventListener('touchend', OffButton, false);
+
+// ゲームパッド操作
+static.on('move', (e, data) => {
+  if (data.direction.x === 'right') {
+    jiki.right = true;
+  }
+
+  if (data.direction.x === 'left') {
+    jiki.left = true;
+  }
+
+  if (data.direction.y === 'up') {
+    jiki.up = true;
+  }
+
+  if (data.direction.y === 'down') {
+    jiki.down = true;
+  }
+});
+
+static.on('end', (e, data) => {
+  jiki.right = false;
+  jiki.left = false;
+  jiki.up = false;
+  jiki.down = false;
+});
