@@ -177,7 +177,7 @@ window.onload = function () {
 };
 
 // ボタンを押されたとき
-document.addEventListener('mousedown', OnButton, false);
+document.addEventListener('touchstart', OnButton, false);
 // ----------------------------------------------
 
 function OnButton() {
