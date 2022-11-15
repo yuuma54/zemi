@@ -44,19 +44,19 @@ class Jiki {
         // if (!!key['Spece']) this.reload = this.relo2 = 0;
 
 
-        if (this.fire === true && this.reload == 0) {
-          tama.push(new Tama(this.x + (4 << 8), this.y - (10 << 8), 0, -2000));
-          tama.push(new Tama(this.x - (4 << 8), this.y - (10 << 8), 0, -2000));
-          tama.push(new Tama(this.x + (8 << 8), this.y - (10 << 8), 80, -2000));
-          tama.push(new Tama(this.x - (8 << 8), this.y - (10 << 8), -80, -2000));
+        // if (this.fire === true && this.reload == 0) {
+        //   tama.push(new Tama(this.x + (4 << 8), this.y - (10 << 8), 0, -2000));
+        //   tama.push(new Tama(this.x - (4 << 8), this.y - (10 << 8), 0, -2000));
+        //   tama.push(new Tama(this.x + (8 << 8), this.y - (10 << 8), 80, -2000));
+        //   tama.push(new Tama(this.x - (8 << 8), this.y - (10 << 8), -80, -2000));
 
-          this.reload = 4;
-          if (++this.relo2 == 4) {
-            this.reload = 20;
-            this.relo2 = 0;
-          }
-        }
-        if (this.fire === false) this.reload = this.relo2 = 0;
+        //   this.reload = 4;
+        //   if (++this.relo2 == 4) {
+        //     this.reload = 20;
+        //     this.relo2 = 0;
+        //   }
+        // }
+        // if (this.fire === false) this.reload = this.relo2 = 0;
 
 
         if (this.reload > 0) this.reload--;
