@@ -84,7 +84,7 @@ spriteImege.src = 'sprite.png';
 //ゲーム初期化
 function gameInit() {
   for (let i = 0; i < STAR_MAX; i++) star[i] = new Star();
-  setInterval(gameLoop, GAME_SPEED);
+  window.requestAnimationFrame(gameLoop);
 }
 
 // オブジェクトをアップデート
@@ -169,6 +169,8 @@ function gameLoop() {
   updateAll();
   drawAll();
   putInfo();
+
+  window.requestAnimationFrame(gameLoop);
 }
 
 //オンロードでゲーム開始
@@ -177,7 +179,7 @@ window.onload = function () {
 };
 
 // ボタンを押されたとき
-btn.addEventListener('mousedown', OnButton, false);
+// btn.addEventListener('mousedown', OnButton, false);
 // ----------------------------------------------
 
 function OnButton() {
@@ -186,7 +188,7 @@ function OnButton() {
 };
 // ----------------------------------------------
 
-btn.addEventListener('mouseup', OffButton, false);
+// btn.addEventListener('mouseup', OffButton, false);
 
 function OffButton(){
   jiki.fire = false
