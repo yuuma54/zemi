@@ -200,6 +200,11 @@ btn.addEventListener('touchend', OffButton, false);
 
 // ゲームパッド操作
 static.on('move', (e, data) => {
+  jiki.right = false;
+  jiki.left = false;
+  jiki.up = false;
+  jiki.down = false;
+
   if (data.direction.x === 'right') {
     jiki.right = true;
   }
