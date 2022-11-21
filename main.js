@@ -33,8 +33,8 @@ const CANVAS_W = SCREEN_W * 2;
 const CANVAS_H = SCREEN_H * 2;
 
 //フィールドサイズ
-const FIELD_W = SCREEN_W * 2;
-const FIELD_H = SCREEN_H * 2;
+const FIELD_W = SCREEN_W + 120;
+const FIELD_H = SCREEN_H + 40;
 
 //星の数
 const STAR_MAX = 300;
@@ -73,6 +73,7 @@ const btn = document.getElementById('btn')
 let teki = [];
 let tama = [];
 let teta = [];
+let expl = [];
 let jiki = new Jiki();
 
 // ファイルを読み込み
@@ -106,13 +107,14 @@ function updateAll() {
   updateObj(tama);
   updateObj(teki);
   updateObj(teta);
+  updateObj(expl);
   jiki.update();
 
 }
 
 // 描画の処理
 function drawAll() {
-  vcon.fillStyle = 'black';
+  vcon.fillStyle = (jiki.damage) ? 'red' : 'black';
   vcon.fillRect(camera_x, camera_y, SCREEN_W, SCREEN_H);
 
   drawObj(star);
@@ -120,6 +122,7 @@ function drawAll() {
   jiki.draw();
   drawObj(teta);
   drawObj(teki);
+  drawObj(expl);
 
   // 自機の範囲0 ~ Field_w
   // カメラの範囲０～(Field_w - Screen_w)
@@ -163,9 +166,10 @@ function putInfo() {
 //ゲームループ
 function gameLoop() {
   // テスト的に敵を出す
-  if (rand(0, 30) == 1)
-    teki.push(new Teki(39, rand(0, FIELD_W) << 8, 0, 0, rand(300, 1200)));
-
+  if (rand(0, 15) == 1) {
+    let r = rand(0, 1)
+    teki.push(new Teki(r, rand(0, FIELD_W) << 8, 0, 0, rand(300, 1200)));
+  }
   updateAll();
   drawAll();
   putInfo();
@@ -183,14 +187,14 @@ window.onload = function () {
 // ----------------------------------------------
 
 function OnButton() {
-    console.log('ボタンが押された')
-    jiki.fire = true
+  console.log('ボタンが押された')
+  jiki.fire = true
 };
 // ----------------------------------------------
 
 // btn.addEventListener('mouseup', OffButton, false);
 
-function OffButton(){
+function OffButton() {
   jiki.fire = false
 };
 

@@ -19,9 +19,12 @@ class CharaBase {
         this.vx = vx;
         this.vy = vy;
         this.kill = false;
+        this.count = 0;
     }
 
     update() {
+        this.count++;
+
         this.x += this.vx;
         this.y += this.vy;
 
@@ -36,6 +39,40 @@ class CharaBase {
 
     draw() {
         drawSprite(this.sn, this.x, this.y);
+    }
+}
+
+//爆発のクラス
+class Expl extends CharaBase {
+    constructor(c, x, y, vx, vy) {
+        super(0, x, y, vx, vy);
+        this.timer = c;
+    }
+    update() {
+        if (this.timer) {
+            this.timer--;
+            return;
+        }
+        super.update();
+    }
+    draw() {
+        if (this.timer) return;
+        this.sn = 16 + (this.count >> 2);
+        if (this.sn == 27) {
+            this.kill = true;
+            return;
+        }
+        super.draw();
+    }
+}
+
+//もっと派手な爆発
+function explosion(x, y, vx, vy) {
+    expl.push(new Expl(0, x, y, vx, vy));
+    for (let i = 0; i < 10; i++) {
+        let evx = vx + (rand(-10, 10) << 5);
+        let evy = vy + (rand(-10, 10) << 5);
+        expl.push(new Expl(i, x, y, evx, evy));
     }
 }
 
@@ -102,3 +139,32 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// 当たり判定
+function checkHit(x1, y1, r1, x2, y2, r2) {
+    // 矩形同士の当たり判定
+
+    // let left1 = x1>>8;
+    // let right1 = left1 + w1;
+    // let top1 = y1 >> 8;
+    // let bottom1 = top1 + h1;
+
+    // let left2 = x2>>8;
+    // let right2 = left2 + w2;
+    // let top2 = y2 >> 8;
+    // let bottom2 = top2 + h2;
+
+    // return (left1 <= right2 &&
+    //     right1 >= left2 &&
+    //     top1 <= bottom2 &&
+    // bottom1 >= top2);
+
+
+    // 円同士の当たり判定
+
+    let a = (x2 - x1) >> 8;
+    let b = (y2 - y1) >> 8;
+    let r = r1 + r2;
+
+
+    return r * r >= a * a + b * b;
+}
