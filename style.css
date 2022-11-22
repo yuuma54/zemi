@@ -16,6 +16,7 @@
     left: 4%;
     z-index: 1;
 }
+
 .btn {
     border-radius: 100px;
     background-color: lightblue;
@@ -31,5 +32,5 @@
     opacity: 0.8;
     font-size: 25px;
     font-family: "Impact";
-    -webkit-touch-callout:none;
+    -webkit-touch-callout: none;
 }
