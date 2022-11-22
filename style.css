@@ -33,4 +33,8 @@
     font-size: 25px;
     font-family: "Impact";
     touch-action: none;
+
+
+    background-image: url("shot.png");
+
 }
