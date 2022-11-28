@@ -6,6 +6,21 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="ress.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <script>
+        window.addEventListener('load', function () {
+
+            // フルスクリーン表示
+            document.getElementById('button1').addEventListener('click', function () {
+                document.body.requestFullscreen();
+            });
+
+            // フルスクリーン解除
+            document.getElementById('button2').addEventListener('click', function () {
+                document.exitFullscreen();
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -15,9 +30,8 @@
         <button id="btn" class="btn" type="button">
         </button>
         <button id="rbtn" class="rbtn" type="button"></button>
-        <!-- <form>
-                <input type="button"value="shot"class="btn">
-            </form> -->
+        <button id="button1" class="fullbtn" type="button"></button>
+        <button id="button2" class="fullbtn2" type="button"></button>
     </div>
     <script src="nipplejs.min.js"></script>
     <script src="misc.js"></script>

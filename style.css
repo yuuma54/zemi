@@ -59,3 +59,39 @@
     font-family: "Impact";
     touch-action: none;
 }
+
+.fullbtn {
+    border-radius: 100px;
+    background-color: lightpink;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    bottom: 2%;
+    right: 35%;
+    z-index: 1;
+    opacity: 0.8;
+    font-size: 25px;
+    font-family: "Impact";
+    touch-action: none;
+}
+
+.fullbtn2 {
+    border-radius: 100px;
+    background-color: lightgreen;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    bottom: 2%;
+    right: 72%;
+    z-index: 1;
+    opacity: 0.8;
+    font-size: 25px;
+    font-family: "Impact";
+    touch-action: none;
+}
