@@ -3,6 +3,12 @@
 // キーボードが押されたとき
 document.addEventListener('keydown', function (e) {
     key[e.code] = true;
+    if(gameOver && key['Space']){
+        delete jiki;
+        jiki = new Jiki();
+        gameOver = false;
+        score = 0;
+    }
 });
 
 // キーボードが離されたとき

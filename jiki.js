@@ -10,20 +10,26 @@ class Tama extends CharaBase {
     update() {
         super.update();
 
-        for (let i = 0; i < teki.length; i++){
-            if(!teki[i].kill){
-                if(checkHit(
+        for (let i = 0; i < teki.length; i++) {
+            if (!teki[i].kill) {
+                if (checkHit(
                     this.x, this.y, this.r,
                     teki[i].x, teki[i].y, teki[i].r
 
-                )){
-                    teki[i].kill = true;
+                )) {
                     this.kill = true;
 
-                    explosion(
-                        teki[i].x, teki[i].y,
-                        teki[i].vx>>3, teki[i].vy>>3);
+                    if ((teki[i].hp -= 10) <= 0) {
+                        teki[i].kill = true;
 
+                        explosion(
+                            teki[i].x, teki[i].y,
+                            teki[i].vx >> 3, teki[i].vy >> 3);
+                        score += teki[i].score;
+                    }
+                    else {
+                        expl.push(new Expl(0, teki[i].x, teki[i].y, 0, 0))
+                    }
                     break;
                 }
             }
@@ -39,7 +45,7 @@ class Tama extends CharaBase {
 class Jiki {
     constructor() {
         this.x = (FIELD_W / 2) << 8;
-        this.y = (FIELD_H -100) << 8;
+        this.y = (FIELD_H - 100) << 8;
         this.speed = 512;
         this.anime = 0;
         this.reload = 0;
@@ -49,6 +55,8 @@ class Jiki {
         this.muteki = 0;
         this.count = 0;
         this.fire = false;
+        this.mhp = 100;
+        this.hp = this.mhp;
 
         this.up = false;
         this.right = false;
@@ -59,8 +67,8 @@ class Jiki {
     // 自機の移動
     update() {
         this.count++;
-        if(this.damage)this.damage--;
-        if(this.muteki)this.muteki--;
+        if (this.damage) this.damage--;
+        if (this.muteki) this.muteki--;
 
         // if (key['Space'] && this.reload == 0) {
         //     tama.push(new Tama(this.x + (6 << 8), this.y - (10 << 8), 0, -2000));
@@ -78,16 +86,16 @@ class Jiki {
 
 
         if (this.fire === true && this.reload == 0) {
-          tama.push(new Tama(this.x + (6 << 8), this.y - (10 << 8), 0, -2000));
-          tama.push(new Tama(this.x - (6 << 8), this.y - (10 << 8), 0, -2000));
-          tama.push(new Tama(this.x + (8 << 8), this.y - (5 << 8), 200, -2000));
-          tama.push(new Tama(this.x - (8 << 8), this.y - (5 << 8), -200, -2000));
+            tama.push(new Tama(this.x + (6 << 8), this.y - (10 << 8), 0, -2000));
+            tama.push(new Tama(this.x - (6 << 8), this.y - (10 << 8), 0, -2000));
+            tama.push(new Tama(this.x + (8 << 8), this.y - (5 << 8), 200, -2000));
+            tama.push(new Tama(this.x - (8 << 8), this.y - (5 << 8), -200, -2000));
 
-          this.reload = 4;
-          if (++this.relo2 == 4) {
-            this.reload = 20;
-            this.relo2 = 0;
-          }
+            this.reload = 4;
+            if (++this.relo2 == 4) {
+                this.reload = 20;
+                this.relo2 = 0;
+            }
         }
         if (this.fire === false) this.reload = this.relo2 = 0;
 
@@ -112,10 +120,10 @@ class Jiki {
 
     // 描画
     draw() {
-        if(this.muteki && (this.count&5)) return;
+        if (this.muteki && (this.count & 5)) return;
         drawSprite(2 + (this.anime >> 2), this.x, this.y);
 
-        if(this.count&1) return;
-        drawSprite(9 + (this.anime >> 2), this.x, this.y + (24<<8));
+        if (this.count & 1) return;
+        drawSprite(9 + (this.anime >> 2), this.x, this.y + (24 << 8));
     }
 }

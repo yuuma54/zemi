@@ -1,5 +1,20 @@
 // スプライトデータ
 
+// 敵マスター
+class TekiMaster{
+  constructor(tnum, r, hp, score){
+    this.tnum = tnum;
+    this.r = r;
+    this.hp = hp;
+    this.score = score;
+  }
+}
+
+let tekiMaster = [
+  new TekiMaster(0, 10, 80, 100),
+  new TekiMaster(1, 10, 1, 100),
+]
+
 //スプライトクラス
 class Sprite {
     constructor(x, y, w, h) {

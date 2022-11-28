@@ -10,14 +10,19 @@ class Teta extends CharaBase {
   update() {
     super.update();
 
-    if (!jiki.muteki && checkHit(
+    if (!gameOver && !jiki.muteki && checkHit(
       this.x, this.y, this.r,
       jiki.x, jiki.y, jiki.r
 
     )) {
       this.kill = true;
-      jiki.damage = 10;
-      jiki.muteki = 60;
+      if ((jiki.hp -= 30) <= 0) {
+        gameOver = true;
+      }
+      else {
+        jiki.damage = 10;
+        jiki.muteki = 60;
+      }
     }
     this.sn = 14 + ((this.count >> 3) & 1);
   }
@@ -25,11 +30,13 @@ class Teta extends CharaBase {
 
 // 敵クラス
 class Teki extends CharaBase {
-  constructor(tnum, x, y, vx, vy) {
+  constructor(t, x, y, vx, vy) {
     super(0, x, y, vx, vy);
+    this.tnum = tekiMaster[t].tnum;
+    this.r = tekiMaster[t].r;
+    this.hp = tekiMaster[t].hp;
+    this.score = tekiMaster[t].score;
     this.flag = false;
-    this.r = 10;
-    this.tnum = tnum;
   }
 
   update() {
@@ -38,15 +45,21 @@ class Teki extends CharaBase {
     tekiFunc[this.tnum](this);
 
     // 当たり判定
-    if (!jiki.muteki && checkHit(
+    if (!gameOver && !jiki.muteki && checkHit(
       this.x, this.y, this.r,
       jiki.x, jiki.y, jiki.r
 
     )) {
       this.kill = true;
-      jiki.damage = 10;
-      jiki.muteki = 60;
+      if ((jiki.hp -= 30) <= 0) {
+        gameOver = true;
+      }
+      else {
+        jiki.damage = 10;
+        jiki.muteki = 60;
+      }
     }
+
   }
 
   draw() {
@@ -54,15 +67,16 @@ class Teki extends CharaBase {
   }
 }
 
-//
-function tekiShot(obj,speed) {
+// 自機に弾を発射する
+function tekiShot(obj, speed) {
+  if(gameOver)return;
   let an, dx, dy;
-    an = Math.atan2(jiki.y - obj.y, jiki.x - obj.x);
+  an = Math.atan2(jiki.y - obj.y, jiki.x - obj.x);
 
-    dx = Math.cos(an) * speed;
-    dy = Math.sin(an) * speed;
+  dx = Math.cos(an) * speed;
+  dy = Math.sin(an) * speed;
 
-    teta.push(new Teta(15, obj.x, obj.y, dx, dy))
+  teta.push(new Teta(15, obj.x, obj.y, dx, dy))
 }
 
 // ピンクのひよこの移動パターン
@@ -80,14 +94,14 @@ function tekiMove01(obj) {
 
   if (Math.abs(jiki.y - obj.y) < (100 << 8) && !obj.flag) {
     obj.flag = true;
-    tekiShot(obj,600);
+    tekiShot(obj, 600);
   }
 
   if (obj.flag && obj.vy > -800) obj.vy -= 30;
 
   // スプライトの変更
   const ptn = [39, 40, 39, 41];
-  obj.sn = ptn[(obj.count>>3)&3];
+  obj.sn = ptn[(obj.count >> 3) & 3];
 }
 
 // 黄色のひよこの移動パターン
@@ -98,20 +112,20 @@ function tekiMove02(obj) {
   }
 
   else {
-    if (jiki.x < obj.x && obj.vx <600) obj.vx += 30;
+    if (jiki.x < obj.x && obj.vx < 600) obj.vx += 30;
     else if (jiki.x > obj.x && obj.vx > -600) obj.vx -= 30;
   }
 
 
   if (Math.abs(jiki.y - obj.y) < (100 << 8) && !obj.flag) {
     obj.flag = true;
-    tekiShot(obj,600);
+    tekiShot(obj, 600);
   }
 
 
   // スプライトの変更
   const ptn = [33, 34, 33, 35];
-  obj.sn = ptn[(obj.count>>3)&3];
+  obj.sn = ptn[(obj.count >> 3) & 3];
 }
 
 let tekiFunc = [

@@ -50,6 +50,8 @@ con.webkitimageSmoothingEnabled = SMOOTHING;
 con.msimageSmoothingEnabled = SMOOTHING;
 con.imageSmoothingEnabled = SMOOTHING;
 
+con.font = "20px 'Impact'";
+
 //フィールド（仮想画面）
 let vcan = document.createElement('canvas');
 let vcon = vcan.getContext('2d');
@@ -60,6 +62,10 @@ vcan.height = FIELD_H;
 let camera_x = 0;
 let camera_y = 0;
 
+//
+let gameOver = false;
+let score = 0;
+
 //星の実体
 let star = [];
 
@@ -68,6 +74,8 @@ let key = [];
 
 // ボタン
 const btn = document.getElementById('btn')
+
+const rbtn = document.getElementById('rbtn')
 
 // オブジェクト
 let teki = [];
@@ -108,7 +116,7 @@ function updateAll() {
   updateObj(teki);
   updateObj(teta);
   updateObj(expl);
-  jiki.update();
+  if(!gameOver)jiki.update();
 
 }
 
@@ -119,7 +127,7 @@ function drawAll() {
 
   drawObj(star);
   drawObj(tama);
-  jiki.draw();
+  if(!gameOver)jiki.draw();
   drawObj(teta);
   drawObj(teki);
   drawObj(expl);
@@ -146,6 +154,21 @@ function drawAll() {
 
 // 情報の処理
 function putInfo() {
+  con.fillStyle = 'White';
+
+  if (gameOver) {
+    let s = "GAME OVER";
+    let w = con.measureText(s).width;
+    let x = CANVAS_W / 2 - w / 2;
+    let y = CANVAS_H / 2 - 20;
+    con.fillText(s, x, y);
+    s = "Push Restart!";
+    w = con.measureText(s).width;
+    x = CANVAS_W / 2 - w / 2;
+    y = CANVAS_H / 2;
+    con.fillText(s, x, y);
+  }
+
   if (DEBUG) {
     drawCount++;
     if (lastTime + 1000 <= Date.now()) {
@@ -154,12 +177,11 @@ function putInfo() {
       lastTime = Date.now();
     }
 
-    con.font = "20px 'Impact'";
-    con.fillStyle = 'White';
-    con.fillText('FPS :' + fps, 20, 20);
-    con.fillText('Tama:' + tama.length, 20, 40);
-    con.fillText('Teki:' + teki.length, 20, 60);
-    con.fillText('Teta:' + teta.length, 20, 80);
+
+    con.fillText('SCORE :' + score, 20, 20);
+    // con.fillText('Tama:' + tama.length, 20, 40);
+    // con.fillText('Teki:' + teki.length, 20, 60);
+    // con.fillText('Teta:' + teta.length, 20, 80);
   }
 }
 
@@ -201,6 +223,14 @@ function OffButton() {
 // ボタンをタップされたとき
 btn.addEventListener('touchstart', OnButton, false);
 btn.addEventListener('touchend', OffButton, false);
+rbtn.addEventListener('touchstart', function (e) {
+  if(gameOver){
+      delete jiki;
+      jiki = new Jiki();
+      gameOver = false;
+      score = 0;
+  }
+});
 
 // ゲームパッド操作
 static.on('move', (e, data) => {
