@@ -12,8 +12,10 @@ body{
 .can {
     user-select: none;
     margin: 0px auto;
-    outline: solid 3px #25338d;
+    /* outline: solid 3px #25338d; */
+    outline: solid 3px red;
     pointer-events: none;
+    -webkit-touch-callout: none;
 }
 
 .wrapper {
