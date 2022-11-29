@@ -83,6 +83,8 @@ let tama = [];
 let teta = [];
 let expl = [];
 let jiki = new Jiki();
+let hpBar = Path.Rectangle([0, 20], [jiki.hp, 10])
+
 
 // ファイルを読み込み
 let spriteImege = new Image();

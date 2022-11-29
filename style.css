@@ -1,5 +1,18 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .can {
     user-select: none;
+    margin: 0px auto;
+    outline: solid 3px #25338d;
 }
 
 .wrapper {
