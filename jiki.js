@@ -55,7 +55,7 @@ class Jiki {
         this.muteki = 0;
         this.count = 0;
         this.fire = false;
-        this.mhp = 100;
+        this.mhp = 500;
         this.hp = this.mhp;
 
         this.up = false;
