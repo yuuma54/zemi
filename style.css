@@ -13,9 +13,10 @@ body{
     user-select: none;
     margin: 0px auto;
     /* outline: solid 3px #25338d; */
-    outline: solid 3px red;
+    outline: solid 3px yellowgreen;
     pointer-events: none;
     -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
 .wrapper {
