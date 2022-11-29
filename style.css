@@ -10,11 +10,11 @@ body{
 }
 
 .can {
-    user-select: none;
     margin: 0px auto;
     /* outline: solid 3px #25338d; */
     outline: solid 3px yellowgreen;
     pointer-events: none;
+    user-select: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
 }
@@ -24,6 +24,16 @@ body{
     position: relative;
 }
 
+.wrapper::before {
+    content: '';
+    width:100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
 .gamepad {
     /* border: 1px solid red; */
     position: absolute;
@@ -31,7 +41,11 @@ body{
     height: 100px;
     bottom: 8%;
     left: 4%;
-    z-index: 1;
+    z-index: 2;
+
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
 .btn {
@@ -45,7 +59,7 @@ body{
     height: 100px;
     bottom: 8%;
     right: 4%;
-    z-index: 1;
+    z-index: 2;
     opacity: 0.8;
     font-size: 25px;
     font-family: "Impact";
@@ -56,6 +70,10 @@ body{
     background-size: 50px 40px;
     background-image: url("shot.png");
     background-position: center;
+
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 
 }
 
@@ -70,14 +88,18 @@ body{
     height: 30px;
     bottom: 2%;
     right: 0%;
-    z-index: 1;
+    z-index: 2;
     opacity: 0.8;
     font-size: 25px;
     font-family: "Impact";
     touch-action: none;
+
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
-.fullbtn {
+/* .fullbtn {
     border-radius: 100px;
     background-color: lightpink;
     padding: 10px;
@@ -88,7 +110,7 @@ body{
     height: 30px;
     bottom: 2%;
     right: 35%;
-    z-index: 1;
+    z-index: 2;
     opacity: 0.8;
     font-size: 25px;
     font-family: "Impact";
@@ -106,9 +128,9 @@ body{
     height: 30px;
     bottom: 2%;
     right: 72%;
-    z-index: 1;
+    z-index: 2;
     opacity: 0.8;
     font-size: 25px;
     font-family: "Impact";
     touch-action: none;
-}
+} */
