@@ -25,8 +25,8 @@ const SMOOTHING = false;
 const GAME_SPEED = 1000 / 60;
 
 //画面サイズ
-const SCREEN_W = 180 * 2;
-const SCREEN_H = 320 * 1.5;
+const SCREEN_W = 180;
+const SCREEN_H = 320;
 
 //キャンバスサイズ
 const CANVAS_W = SCREEN_W * 2;
@@ -83,7 +83,6 @@ let tama = [];
 let teta = [];
 let expl = [];
 let jiki = new Jiki();
-// let hpBar = Path.Rectangle([0, 20], [jiki.hp, 10])
 
 
 // ファイルを読み込み
@@ -118,7 +117,7 @@ function updateAll() {
   updateObj(teki);
   updateObj(teta);
   updateObj(expl);
-  if(!gameOver)jiki.update();
+  if (!gameOver) jiki.update();
 
 }
 
@@ -129,7 +128,7 @@ function drawAll() {
 
   drawObj(star);
   drawObj(tama);
-  if(!gameOver)jiki.draw();
+  if (!gameOver) jiki.draw();
   drawObj(teta);
   drawObj(teki);
   drawObj(expl);
@@ -153,6 +152,14 @@ function drawAll() {
     CANVAS_H
   );
 }
+
+function drawHp() {
+  let hpBar = can.getContext('2d');
+
+  hpBar.fillStyle = "rgba(" + [0, 255, 25, 0.7] + ")";
+  hpBar.fillRect(0, 0, jiki.hp*2, 10);
+}
+
 
 // 情報の処理
 function putInfo() {
@@ -180,7 +187,7 @@ function putInfo() {
     }
 
 
-    con.fillText('SCORE :' + score, 20, 20);
+    con.fillText('SCORE :' + score, 10, 40);
     // con.fillText('Tama:' + tama.length, 20, 40);
     // con.fillText('Teki:' + teki.length, 20, 60);
     // con.fillText('Teta:' + teta.length, 20, 80);
@@ -190,13 +197,15 @@ function putInfo() {
 //ゲームループ
 function gameLoop() {
   // テスト的に敵を出す
-  if (rand(0, 15) == 1) {
+  if (rand(0, 35) == 1) {
     let r = rand(0, 1)
     teki.push(new Teki(r, rand(0, FIELD_W) << 8, 0, 0, rand(300, 1200)));
   }
   updateAll();
   drawAll();
+  drawHp();
   putInfo();
+
 
   window.requestAnimationFrame(gameLoop);
 }
@@ -226,11 +235,11 @@ function OffButton() {
 btn.addEventListener('touchstart', OnButton, false);
 btn.addEventListener('touchend', OffButton, false);
 rbtn.addEventListener('touchstart', function (e) {
-  if(gameOver){
-      delete jiki;
-      jiki = new Jiki();
-      gameOver = false;
-      score = 0;
+  if (gameOver) {
+    delete jiki;
+    jiki = new Jiki();
+    gameOver = false;
+    score = 0;
   }
 });
 

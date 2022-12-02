@@ -16,7 +16,7 @@ class Teta extends CharaBase {
 
     )) {
       this.kill = true;
-      if ((jiki.hp -= 30) <= 0) {
+      if ((jiki.hp -= 10) <= 0) {
         gameOver = true;
       }
       else {
@@ -76,7 +76,7 @@ function tekiShot(obj, speed) {
   dx = Math.cos(an) * speed;
   dy = Math.sin(an) * speed;
 
-  teta.push(new Teta(15, obj.x, obj.y, dx, dy))
+  teta.push(new Teta(15, obj.x, obj.y, dx * 2.5, dy * 2.5))
 }
 
 // ピンクのひよこの移動パターン

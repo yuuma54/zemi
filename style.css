@@ -16,8 +16,7 @@ body{
 
 .can {
     margin: 0px auto;
-    /* outline: solid 3px #25338d; */
-    outline: solid 3px gold;
+    outline: solid 3px #25338d;
     pointer-events: none;
     user-select: none;
     -webkit-touch-callout: none;
@@ -92,7 +91,7 @@ body{
     width: 100px;
     height: 30px;
     bottom: 2%;
-    right: 0%;
+    right: 3%;
     z-index: 2;
     opacity: 0.8;
     font-size: 25px;
@@ -102,6 +101,11 @@ body{
     user-select: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
+
+    background-repeat: no-repeat;
+    background-size: 50px 20px;
+    background-image: url("restart.jpg");
+    background-position: center;
 }
 
 /* .fullbtn {

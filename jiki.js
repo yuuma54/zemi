@@ -46,7 +46,7 @@ class Jiki {
     constructor() {
         this.x = (FIELD_W / 2) << 8;
         this.y = (FIELD_H - 100) << 8;
-        this.speed = 512;
+        this.speed = 500;
         this.anime = 0;
         this.reload = 0;
         this.relo2 = 0;
@@ -55,7 +55,7 @@ class Jiki {
         this.muteki = 0;
         this.count = 0;
         this.fire = false;
-        this.mhp = 500;
+        this.mhp = SCREEN_W;
         this.hp = this.mhp;
 
         this.up = false;

@@ -22,8 +22,8 @@ class CharaBase {
         this.sn = snum;
         this.x = x;
         this.y = y;
-        this.vx = vx;
-        this.vy = vy;
+        this.vx = vx * 0.5;
+        this.vy = vy * 0.5;
         this.kill = false;
         this.count = 0;
     }
