@@ -51,7 +51,8 @@ class Teki extends CharaBase {
 
     )) {
       this.kill = true;
-      if ((jiki.hp -= 30) <= 0) {
+    
+      if ((jiki.hp -= 25) <= 0) {
         gameOver = true;
       }
       else {
@@ -128,7 +129,26 @@ function tekiMove02(obj) {
   obj.sn = ptn[(obj.count >> 3) & 3];
 }
 
+// 黒色のひよこの移動パターン
+function tekiMove03(obj) {
+  if (!obj.flag) {
+    if (jiki.x > obj.x && obj.vx < 1000) obj.vx += 50;
+    else if (jiki.x < obj.x && obj.vx > - 1000) obj.vx -= 50;
+  }
+
+  else {
+    if (jiki.x < obj.x && obj.vx < 1000) obj.vx += 50;
+    else if (jiki.x > obj.x && obj.vx > -1000) obj.vx -= 50;
+  }
+
+
+  // スプライトの変更
+  const ptn = [45, 46, 45, 47];
+  obj.sn = ptn[(obj.count >> 3) & 3];
+}
+
 let tekiFunc = [
   tekiMove01,
-  tekiMove02
+  tekiMove02,
+  tekiMove03
 ];

@@ -197,8 +197,8 @@ function putInfo() {
 //ゲームループ
 function gameLoop() {
   // テスト的に敵を出す
-  if (rand(0, 35) == 1) {
-    let r = rand(0, 1)
+  if (rand(0, 40) == 1) {
+    let r = rand(0, 2)
     teki.push(new Teki(r, rand(0, FIELD_W) << 8, 0, 0, rand(300, 1200)));
   }
   updateAll();
