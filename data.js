@@ -12,7 +12,7 @@ class TekiMaster{
 
 let tekiMaster = [
   new TekiMaster(0, 10, 80, 100),
-  new TekiMaster(1, 10, 1, 100),
+  new TekiMaster(1, 10, 40, 100),
   new TekiMaster(2, 10, 150, 300)
 ]
 
