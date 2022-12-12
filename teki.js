@@ -16,7 +16,7 @@ class Teta extends CharaBase {
 
     )) {
       this.kill = true;
-      if ((jiki.hp -= 10) <= 0) {
+      if ((jiki.hp -= 20) <= 0) {
         gameOver = true;
       }
       else {
@@ -52,7 +52,7 @@ class Teki extends CharaBase {
     )) {
       this.kill = true;
     
-      if ((jiki.hp -= 25) <= 0) {
+      if ((jiki.hp -= 40) <= 0) {
         gameOver = true;
       }
       else {
